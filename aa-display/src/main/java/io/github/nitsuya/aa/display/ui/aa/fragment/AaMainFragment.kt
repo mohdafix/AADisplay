@@ -104,7 +104,7 @@ class AaMainFragment : BaseFragment<FragmentAaMainBinding>(FragmentAaMainBinding
                                 KeyEvent.KEYCODE_MEDIA_PLAY            /*126*/,
                                 KeyEvent.KEYCODE_MEDIA_PAUSE           /*127*/,
                                 KeyEvent.KEYCODE_MEDIA_RECORD          /*130*/-> CoreApi.pressKey(action)
-                                else -> CoreApi.toast("方控[$action]未设置")
+                                else -> CoreApi.toast("Steering wheel control [$action] not set")
                             }
                         }
                         1 -> {
@@ -112,11 +112,11 @@ class AaMainFragment : BaseFragment<FragmentAaMainBinding>(FragmentAaMainBinding
                                 KeyEvent.KEYCODE_SEARCH              /* 84*/ -> startVoiceAssist()
                                 KeyEvent.KEYCODE_MEDIA_REWIND         /* 89*/ -> CoreApi.startLauncher()
                                 KeyEvent.KEYCODE_MEDIA_FAST_FORWARD   /* 90*/ -> CoreApi.moveSecondTaskToFront()
-                                else -> CoreApi.toast("方控长按[$action]未设置")
+                                else -> CoreApi.toast("Steering wheel control long press [$action] not set")
                             }
                         }
                         2 -> {
-                            CoreApi.toast("方控双击[$action]未设置")
+                            CoreApi.toast("Steering wheel control double click [$action] not set")
                         }
                     }
                 }

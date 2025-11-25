@@ -15,6 +15,13 @@ import io.github.nitsuya.aa.display.App
 
 object TipUtil {
     private val map = mutableMapOf<Int, CoordinatorLayout>()
+    private var mContext: Context? = null
+    private var mPrefix: String = ""
+
+    fun init(context: Context, prefix: String = "") {
+        mContext = context
+        mPrefix = prefix
+    }
 
     fun registerCoordinatorLayout(context: Context, coordinatorLayout: CoordinatorLayout?) {
         coordinatorLayout?.let { map[context.hashCode()] = it }
@@ -24,14 +31,22 @@ object TipUtil {
         map.remove(context.hashCode())
     }
 
+    private fun getContext(): Context {
+        return mContext ?: App
+    }
+
     fun showToast(msg: CharSequence?) {
         runMain {
-            Toast.makeText(App, "$msg", Toast.LENGTH_LONG).show()
+            try {
+                Toast.makeText(getContext(), "$mPrefix$msg", Toast.LENGTH_LONG).show()
+            } catch (e: Throwable) {
+                // Log or ignore if context is missing/invalid
+            }
         }
     }
 
     fun showToast(@StringRes resId: Int) =
-        showToast(App.getText(resId))
+        showToast(getContext().getText(resId))
 
     fun showSnackbar(coordinatorLayout: CoordinatorLayout, msg: CharSequence?) {
         runMain {
@@ -40,11 +55,11 @@ object TipUtil {
     }
 
     fun showSnackbar(coordinatorLayout: CoordinatorLayout, @StringRes resId: Int) =
-        showSnackbar(coordinatorLayout, App.getText(resId))
+        showSnackbar(coordinatorLayout, getContext().getText(resId))
 
     fun showSnackbar(coordinatorLayout: CoordinatorLayout, t: Throwable) {
         runMain {
-            val msg = t.localizedMessage ?: t.message ?: App.getString(R.string.unknown_error)
+            val msg = t.localizedMessage ?: t.message ?: getContext().getString(R.string.unknown_error)
             Snackbar.make(coordinatorLayout, msg, BaseTransientBottomBar.LENGTH_LONG)
                 .setAction(R.string.details) {
                     MaterialAlertDialogBuilder(coordinatorLayout.context)
@@ -58,7 +73,7 @@ object TipUtil {
     }
 
     fun showTip(context: Context?, t: Throwable) {
-        val msg = t.localizedMessage ?: t.message ?: "未知错误"
+        val msg = t.localizedMessage ?: t.message ?: "Unknown Error"
         if (context == null || (context is Activity && context.window.decorView.isVisible.not())) {
             showToast(msg)
             return
@@ -83,5 +98,5 @@ object TipUtil {
     }
 
     fun showTip(context: Context?, @StringRes resId: Int) =
-        showTip(context, App.getText(resId))
+        showTip(context, getContext().getText(resId))
 }

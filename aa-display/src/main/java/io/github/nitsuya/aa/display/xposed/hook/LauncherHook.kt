@@ -44,14 +44,14 @@ object LauncherHook : BaseHook() {
             val mode = Mode.getMode(modeName as String)
             if(mode == null){
                 runMain {
-                    Toast.makeText(context, "${modeName}:未知模式", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "${modeName}:Unknown Mode", Toast.LENGTH_LONG).show()
                 }
                 return@hookBefore
             }
             val newIntent = mode.buildIntent(context, intent)
             if(newIntent == null){
                 runMain {
-                    Toast.makeText(context, "${modeName}:${component.packageName}未匹配到模式", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "${modeName}:${component.packageName} mode mismatch", Toast.LENGTH_LONG).show()
                 }
                 return@hookBefore
             }

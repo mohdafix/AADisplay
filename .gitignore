@@ -10,3 +10,5 @@ aa-display/build
 .externalNativeBuild
 .cxx
 local.properties
+release/
+*.jks
