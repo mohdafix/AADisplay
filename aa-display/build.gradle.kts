@@ -30,9 +30,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("../key.jks")
-            storePassword = System.getenv("KEY_ANDROID")
+            storePassword = System.getenv("KEY_ANDROID") ?: "android"
             keyAlias = "key0"
-            keyPassword = System.getenv("KEY_ANDROID")
+            keyPassword = System.getenv("KEY_ANDROID") ?: "android"
             enableV1Signing = false
             enableV2Signing = false
             enableV3Signing = true
@@ -57,7 +57,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            //signingConfig = signingConfigs.getByName("release")
 //            proguardFiles(
 //                getDefaultProguardFile("proguard-android-optimize.txt"),
 //                "proguard-rules.pro"
@@ -76,6 +76,7 @@ android {
     buildFeatures {
         viewBinding = true
         aidl = true
+        buildConfig = true
     }
     lint {
         checkReleaseBuilds = false
@@ -132,4 +133,16 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
 
+}
+
+tasks.withType<com.android.build.gradle.tasks.AidlCompile>().configureEach {
+    doLast {
+        sourceOutputDir.get().asFile.walk().filter { it.name.endsWith(".java") }.forEach { file ->
+            val content = file.readText()
+            val newContent = content.replace(Regex("\\\\u(?![0-9a-fA-F]{4})"), "\\\\\\\\u")
+            if (content != newContent) {
+                file.writeText(newContent)
+            }
+        }
+    }
 }

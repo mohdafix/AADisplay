@@ -80,28 +80,28 @@ class CoreManagerService private constructor(): ICoreManager.Stub() {
 //                    classDynamicApiFactory.field("instance", true, ClassLoader::class.java).set(null, instance)
 //                    val car = Car.createCar(systemContext, object: CarConnectionCallback(){
 //                        override fun onConnected(car: Car) {
-//                            log(TAG, "AA已连接")
+//                            log(TAG, "AA Connected")
 //                            val carManager = car.getCarManager("car_1p")
 //                            Companion.instance?.showToast("AA carManager: ${carManager!=null} -> ${carManager?.javaClass?.name}")
 //                            log(TAG, "AA carManager: ${carManager!=null} -> ${carManager?.javaClass?.name}") //CarFirstPartyManager
-//                            Companion.instance?.showToast("AA已连接")
+//                            Companion.instance?.showToast("AA Connected")
 //                        }
 //                        override fun onDisconnected(car: Car) {
-//                            log(TAG, "AA已断开")
-//                            Companion.instance?.showToast("AA 已断开")
+//                            log(TAG, "AA Disconnected")
+//                            Companion.instance?.showToast("AA Disconnected")
 //                        }
 //                    }).apply {
 //                        connect()
-//                        log(TAG, "AA初始化完成")
-//                        Companion.instance?.showToast("AA初始化完成")
+//                        log(TAG, "AA Init Complete")
+//                        Companion.instance?.showToast("AA Init Complete")
 //                    }
 //                    if(car == null){
-//                        Companion.instance?.showToast("AA初始化失败")
-//                        log(TAG, "AA初始化失败")
+//                        Companion.instance?.showToast("AA Init Failed")
+//                        log(TAG, "AA Init Failed")
 //                    }
 //                } catch (e: Throwable){
-//                    Companion.instance?.showToast("AA初始化异常:" + e.message)
-//                    log(TAG, "AA初始化异常", e)
+//                    Companion.instance?.showToast("AA Init Exception:" + e.message)
+//                    log(TAG, "AA Init Exception", e)
 //                }
 //            }
         }
@@ -325,28 +325,28 @@ class CoreManagerService private constructor(): ICoreManager.Stub() {
 //                            instance.loadClass("com.google.android.gms.car.CarVersionUtils").invokeStaticMethod("versionCheck")
 //                            val car = Car.createCar(systemContext, object: CarConnectionCallback(){
 //                                override fun onConnected(car: Car) {
-//                                    log(TAG, "AA已连接")
-//                                    TipUtil.showToast("AA已连接")
+//                                    log(TAG, "AA Connected")
+//                                    TipUtil.showToast("AA Connected")
 ////                                    val carManager = car.getCarManager("car_1p")
 ////                                    showToast("AA carManager: ${carManager!=null} -> ${carManager?.javaClass?.name}")
 ////                                    log(TAG, "AA carManager: ${carManager!=null} -> ${carManager?.javaClass?.name}") //CarFirstPartyManager
 //                                }
 //                                override fun onDisconnected(car: Car) {
-//                                    log(TAG, "AA已断开")
-//                                    TipUtil.showToast("AA 已断开")
+//                                    log(TAG, "AA Disconnected")
+//                                    TipUtil.showToast("AA Disconnected")
 //                                }
 //                            }).apply {
 //                                connect()
-//                                log(TAG, "AA初始化完成")
-//                                TipUtil.showToast("AA初始化完成")
+//                                log(TAG, "AA Init Complete")
+//                                TipUtil.showToast("AA Init Complete")
 //                            }
 //                            if(car == null){
-//                                TipUtil.showToast("AA初始化失败")
-//                                log(TAG, "AA初始化失败")
+//                                TipUtil.showToast("AA Init Failed")
+//                                log(TAG, "AA Init Failed")
 //                            }
 //                        } catch (e: Throwable){
-//                            TipUtil.showToast("AA初始化异常:" + e.message)
-//                            log(TAG, "AA初始化异常", e)
+//                            TipUtil.showToast("AA Init Exception:" + e.message)
+//                            log(TAG, "AA Init Exception", e)
 //                        }
 //                    }
 //                }

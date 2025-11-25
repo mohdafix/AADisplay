@@ -46,7 +46,7 @@ public class AaDisplayActivity extends CarActivity {
                 AaDisplayActivityKt.INSTANCE.pressKey(keyCode);
                 return true;
             default:
-                AaDisplayActivityKt.INSTANCE.toast("键值:[" + keyCode + "]未适配");
+                AaDisplayActivityKt.INSTANCE.toast("KeyCode:[" + keyCode + "] not adapted");
                 return super.onKeyDown(keyCode, keyEvent);
         }
     }

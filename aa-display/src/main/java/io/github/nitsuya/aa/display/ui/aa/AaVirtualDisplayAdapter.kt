@@ -124,7 +124,7 @@ class AaVirtualDisplayAdapter(
                 setShouldShowSystemDecors(mDisplayId, false)
             }
         } catch (e : Throwable){
-            log(TAG, "设置虚拟屏幕参数失败: ", e)
+            log(TAG, "Failed to set virtual screen parameters: ", e)
         }
         //mDisplayWindowManager = context.createDisplayContext(mVirtualDisplay.display).getSystemService(WindowManager::class.java).apply {
         mDisplayWindowManager = context.createDisplayContext(mVirtualDisplay.display).createWindowContext(mVirtualDisplay.display, WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY, null).getSystemService(WindowManager::class.java).apply {
@@ -467,5 +467,13 @@ class AaVirtualDisplayAdapter(
         override fun onTaskbarIconVisibleChangeRequest(componentName: ComponentName?, z: Boolean) {}
         //Samsung OneUi 7
         override fun onTaskWindowingModeChanged(i: Int) {}
+
+        // Compatibility shim for Android/AA 15.6+: prevent AbstractMethodError
+        @Throws(android.os.RemoteException::class)
+        override fun onRecentTaskRemovedForAddTask(taskId: Int) {
+            try {
+                // compatibility no-op
+            } catch (_: Throwable) { }
+        }
     }
 }

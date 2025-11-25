@@ -4,14 +4,14 @@
 
     <PreferenceCategory
         app:key="CategoryBase"
-        app:title="基础配置"
+        app:title="Basic Settings"
         app:iconSpaceReserved="false">
 
         <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="true"
             app:key="AutoOpen"
-            app:title="自动打开"
-            app:summary="连接Android Auto后自动打开应用"
+            app:title="Auto Open"
+            app:summary="Automatically open app after connecting to Android Auto"
             app:iconSpaceReserved="false"/>
 
         <EditTextPreference
@@ -19,7 +19,7 @@
             app:singleLineTitle="true"
             app:defaultValue="com.wow.carlauncher.mini"
             app:key="LauncherPackage"
-            app:title="首选项包名"
+            app:title="Launcher Package Name"
             app:useSimpleSummaryProvider="true"
             app:iconSpaceReserved="false"/>
 
@@ -41,28 +41,28 @@
             android:inputType="number"
             app:defaultValue="180"
             app:key="DelayDestroyTime"
-            app:title="延迟销毁时间"
+            app:title="Delay Destroy Time"
             app:useSimpleSummaryProvider="true"
             app:iconSpaceReserved="false" />
 
         <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="false"
             app:key="ScreenOffReplaceLockScreen"
-            app:title="仅熄屏"
-            app:summary="电源键替换仅熄屏"
+            app:title="Screen Off Only"
+            app:summary="Power button replaces screen off only"
             app:iconSpaceReserved="false"/>
 
         <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="true"
             app:key="CloseLauncherDashboard"
-            app:title="阻止AA分屏切换"
+            app:title="Prevent AA Split Screen Toggle"
             app:summary=""
             app:iconSpaceReserved="false"/>
 
         <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="true"
             app:key="ForceRightAngle"
-            app:title="强制直角"
+            app:title="Force Right Angle"
             app:summary=""
             app:iconSpaceReserved="false"/>
 
@@ -80,7 +80,7 @@
             app:singleLineTitle="true"
             app:defaultValue="am start com.miui.voiceassist/com.xiaomi.voiceassistant.CTAAlertActivity"
             app:key="VoiceAssistShell"
-            app:title="语音助手Shell"
+            app:title="Voice Assistant Shell"
             app:useSimpleSummaryProvider="true"
             app:iconSpaceReserved="false"/>
 
@@ -88,20 +88,20 @@
 
     <PreferenceCategory
         app:key="CategoryShell"
-        app:title="Shell命令"
+        app:title="Shell Commands"
         app:iconSpaceReserved="false">
 
         <EditTextPreference
             android:inputType="textMultiLine"
             app:key="CreateVirtualDisplayBefore"
-            app:title="创建虚拟屏前执行"
+            app:title="Execute Before Creating Virtual Display"
             app:useSimpleSummaryProvider="true"
             app:iconSpaceReserved="false"/>
 
         <EditTextPreference
             android:inputType="textMultiLine"
             app:key="DestroyVirtualDisplayAfter"
-            app:title="销毁虚拟屏后执行"
+            app:title="Execute After Destroying Virtual Display"
             app:useSimpleSummaryProvider="true"
             app:iconSpaceReserved="false"/>
 
@@ -109,14 +109,14 @@
 
     <PreferenceCategory
         app:key="CategoryPhysicalBtn"
-        app:title="实体按钮"
+        app:title="Physical Buttons"
         app:summary="TODO"
         app:iconSpaceReserved="false">
     </PreferenceCategory>
 
     <PreferenceCategory
         app:key="CategoryAndroidAuto"
-        app:title="AndroidAuto配置"
+        app:title="Android Auto Config"
         app:summary="[com.google.android."
         app:singleLineTitle="true"
         app:iconSpaceReserved="false">
@@ -140,7 +140,7 @@
 <!--
     <PreferenceCategory
         app:key="CategoryLauncherMode"
-        app:title="启动模式"
+        app:title="Launch Mode"
         app:summary="support mode: ucar,samsung,vivo,huawei"
         app:singleLineTitle="true"
         app:iconSpaceReserved="false">
@@ -148,7 +148,7 @@
         <EditTextPreference
             android:inputType="textMultiLine"
             app:key="LauncherModeProps"
-            app:title="配置"
+            app:title="Config"
             app:defaultValue="com.baidu.BaiduMap=samsung\ncom.autonavi.minimap=ucar\ncom.kugou.android=huawei"
             app:useSimpleSummaryProvider="true"
             app:iconSpaceReserved="false"/>
