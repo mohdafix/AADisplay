@@ -36,41 +36,66 @@ abstract class AaHook {
 
 object AndroidAuoHook : BaseHook() {
     override val tagName: String = "AAD_AndroidAuoHook"
+    private var isAadInitFailed = false
+
     override fun init(lpparam: XC_LoadPackage.LoadPackageParam) {
-        val processName = lpparam.processName
-        val hooks = listOf(AaBasicsHook, AaSignatureHook, AaDpiHook, AaBtnEventHook, AaUiHook, AaPropsHook).filter { i -> i.isSupportProcess(processName) }
-        if(hooks.isEmpty()) return
+        try {
+            val processName = lpparam.processName
+            val hooks = listOf(AaBasicsHook, AaSignatureHook, AaDpiHook, AaBtnEventHook, AaUiHook, AaPropsHook).filter { i -> i.isSupportProcess(processName) }
+            if(hooks.isEmpty()) return
 
-        val configPreferences = XSharedPreferences(BuildConfig.APPLICATION_ID, AADisplayConfig.ConfigName)
-        if(!configPreferences.file.canRead()){
-            log(tagName,"load configPreferences fail")
-            return
-        }
+            val configPreferences = XSharedPreferences(BuildConfig.APPLICATION_ID, AADisplayConfig.ConfigName)
+            if(!configPreferences.file.canRead()){
+                log(tagName,"load configPreferences fail")
+                return
+            }
 
-        var onCreateApplication: XC_MethodHook.Unhook? = null
-        onCreateApplication = findMethod(Instrumentation::class.java) {
-            name == "callApplicationOnCreate"
-            && parameterCount == 1
-            && parameterTypes[0] == Application::class.java
-        }.hookBefore {
-            onCreateApplication?.unhook()
-            EzXHelperInit.initAppContext()
-            System.loadLibrary("dexkit")
-            DexKitBridge.create(lpparam.appInfo.sourceDir).use { bridge ->
-                if(bridge == null){
-                    log(tagName,"DexKitBridge.create() failed")
-                    return@hookBefore
-                }
-                val measureTimeMillis = measureTimeMillis {
-                    hooks.forEach { h ->
-                        h.loadDexClass(bridge, lpparam)
+            var onCreateApplication: XC_MethodHook.Unhook? = null
+            onCreateApplication = findMethod(Instrumentation::class.java) {
+                name == "callApplicationOnCreate"
+                && parameterCount == 1
+                && parameterTypes[0] == Application::class.java
+            }.hookBefore {
+                try {
+                    if (isAadInitFailed) {
+                        log(tagName, "AAD hooks disabled due to previous init failure")
+                        return@hookBefore
                     }
+
+                    onCreateApplication?.unhook()
+                    EzXHelperInit.initAppContext()
+                    System.loadLibrary("dexkit")
+                    DexKitBridge.create(lpparam.appInfo.sourceDir).use { bridge ->
+                        if(bridge == null){
+                            log(tagName,"DexKitBridge.create() failed")
+                            return@hookBefore
+                        }
+                        val measureTimeMillis = measureTimeMillis {
+                            hooks.forEach { h ->
+                                try {
+                                    h.loadDexClass(bridge, lpparam)
+                                } catch (e: Throwable) {
+                                    log(tagName, "Failed to load dex class for ${h.tagName}: ${e.message}", e)
+                                }
+                            }
+                        }
+                        log(tagName,"${lpparam.processName} load class measure ${measureTimeMillis}ms")
+                    }
+                    hooks.forEach { h ->
+                        try {
+                            h.hook(configPreferences, lpparam)
+                        } catch (e: Throwable) {
+                            log(tagName, "Failed to hook ${h.tagName}: ${e.message}", e)
+                        }
+                    }
+                } catch (t: Throwable) {
+                    log(tagName, "AndroidAuoHook.init hookBefore failed, disabling AAD hooks: ${t.message}", t)
+                    isAadInitFailed = true
                 }
-                log(tagName,"${lpparam.processName} load class measure ${measureTimeMillis}ms")
             }
-            hooks.forEach { h ->
-                h.hook(configPreferences, lpparam)
-            }
+        } catch (t: Throwable) {
+            log(tagName, "AndroidAuoHook.init failed, disabling AAD hooks: ${t.message}", t)
+            isAadInitFailed = true
         }
     }
 }
